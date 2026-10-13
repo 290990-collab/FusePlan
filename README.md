@@ -18,7 +18,8 @@ ranks a near-duplicate plan first).</sub></p>
 
 Architects rarely start from a finished layout: they start from a few rooms or an outline and look for similar
 precedents. FusePlan studies **floor-plan retrieval when the query is incomplete**. The query is a plan with part of its
-content removed, and the target is the complete plan, retrieved from the **whole RPLAN corpus (67,405 plans)**.
+content removed, and the target is the complete plan, retrieved from the **whole RPLAN corpus (67,405 plans)**. This repository contains the code,
+configurations and figures behind the results reported below.
 
 Two branches share the same gallery, damages, metrics and ground truth:
 
