@@ -23,11 +23,15 @@ import numpy as np
 import pytest
 import torch
 
-from src.competitors.layoutgkn import UPSTREAM_CONF, upstream
-from src.competitors.layoutgkn import graphs as lg
-from src.competitors.layoutgkn import score as ls
-from src.data.rplan_metadata import load_metadata
-from src.graph.graph_partial_query import make_partial_graph
+from src.competitors.layoutgkn import UPSTREAM_CONF, UPSTREAM_SRC, upstream
+
+if not UPSTREAM_SRC.is_dir():
+    pytest.skip(f"upstream LayoutGKN missing: {UPSTREAM_SRC} (see README, Installation)", allow_module_level=True)
+
+from src.competitors.layoutgkn import graphs as lg  # noqa: E402
+from src.competitors.layoutgkn import score as ls  # noqa: E402
+from src.data.rplan_metadata import load_metadata  # noqa: E402
+from src.graph.graph_partial_query import make_partial_graph  # noqa: E402
 
 upstream()
 from LayoutGKN.loss import ghopper_sim  # noqa: E402

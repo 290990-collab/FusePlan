@@ -1,3 +1,5 @@
+# PyTorch CUDA 11.8 wheels (torch/torchvision/torchaudio +cu118)
+--extra-index-url https://download.pytorch.org/whl/cu118
 aiohappyeyeballs==2.6.1
 aiohttp==3.13.5
 aiosignal==1.4.0

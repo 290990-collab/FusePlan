@@ -41,3 +41,6 @@ notebooks/
 *.tar
 *.tar.gz
 *.xlsx
+
+# third-party code downloaded by the user (LayoutGKN)
+external/

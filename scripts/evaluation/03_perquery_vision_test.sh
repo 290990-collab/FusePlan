@@ -36,8 +36,8 @@
 set -uo pipefail
 umask 002
 
-source ~/floorplan-env/bin/activate
-source /work/cvcs2026/ai_interior_design/CVCS-AI-Assisted-ID/scripts/vision/_common.sh
+source "${VENV_DIR:-$HOME/floorplan-env}/bin/activate"
+source "${PROJECT_DIR:-${SLURM_SUBMIT_DIR:-$PWD}}/scripts/vision/_common.sh"
 cd "$PROJECT_DIR" || exit 1
 
 MODEL="${1:-}"

@@ -1,7 +1,7 @@
 # Shared settings for the graph-branch jobs (source from each script).
 # Centralises PROJECT_DIR, the encoder list and the YAML -> train_gnn.py flag bridge (cf. scripts/vision/_common.sh).
 
-PROJECT_DIR="/work/cvcs2026/ai_interior_design/CVCS-AI-Assisted-ID"
+PROJECT_DIR="${PROJECT_DIR:-${SLURM_SUBMIT_DIR:-$PWD}}"
 
 # Encoders: argument $1 (single) or all three; names are basenames in configs/graph_models/ (graph_sage, not sage).
 select_encoders() {

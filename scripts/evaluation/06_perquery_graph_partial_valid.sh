@@ -36,7 +36,7 @@
 set -uo pipefail
 umask 002
 
-PROJECT_DIR="/work/cvcs2026/ai_interior_design/CVCS-AI-Assisted-ID"
+PROJECT_DIR="${PROJECT_DIR:-${SLURM_SUBMIT_DIR:-$PWD}}"
 cd "$PROJECT_DIR" || exit 1
 
 export PERQUERY_OUT="${PERQUERY_OUT:-results/perquery/graph_partial_valid}"

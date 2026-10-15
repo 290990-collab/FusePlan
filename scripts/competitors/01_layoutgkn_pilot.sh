@@ -6,7 +6,7 @@
 # Writes (new) embeddings/competitors/layoutgkn/pilot/ and results/competitors/layoutgkn/pilot/
 # (pilot.json + per-query); refuses to start if either exists.
 # Needs torch_scatter, grakel, shapely in ~/floorplan-env and the upstream code in
-# /work/cvcs2026/ai_interior_design/external/LayoutGKN (commit 395dc92).
+# external/LayoutGKN (commit 395dc92; see README, Data).
 #
 # Usage:
 #   sbatch scripts/competitors/01_layoutgkn_pilot.sh
@@ -28,8 +28,8 @@
 set -uo pipefail
 umask 002
 
-PROJECT_DIR="/work/cvcs2026/ai_interior_design/CVCS-AI-Assisted-ID"
-source ~/floorplan-env/bin/activate
+PROJECT_DIR="${PROJECT_DIR:-${SLURM_SUBMIT_DIR:-$PWD}}"
+source "${VENV_DIR:-$HOME/floorplan-env}/bin/activate"
 cd "$PROJECT_DIR" || exit 1
 mkdir -p logs
 

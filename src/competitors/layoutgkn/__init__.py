@@ -1,15 +1,16 @@
 """LayoutGKN adapted to our task, imported from the pinned upstream checkout.
 
-Upstream is not copied: it lives at commit 395dc92 in `external/LayoutGKN`
-(see `external/LayoutGKN.SOURCE`). `upstream()` adds it to `sys.path`; call it before importing `LayoutGKN.*`.
+Upstream is not copied: it lives at commit 395dc92 in `external/LayoutGKN` at the repository root
+(override with the LAYOUTGKN_DIR environment variable; download command in the README). `upstream()` adds it to `sys.path`; call it before importing `LayoutGKN.*`.
 """
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
-UPSTREAM_SRC = Path("/work/cvcs2026/ai_interior_design/external/LayoutGKN/src")
+UPSTREAM_SRC = Path(os.environ.get("LAYOUTGKN_DIR", Path(__file__).resolve().parents[3] / "external" / "LayoutGKN")) / "src"
 UPSTREAM_CONF = UPSTREAM_SRC.parent / "conf" / "default.yaml"
 UPSTREAM_COMMIT = "395dc92"
 

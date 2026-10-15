@@ -126,15 +126,27 @@ diamonds).</sub></p>
 ## Installation
 
 ```bash
-git clone https://github.com/290990-collab/CVCS-AI-Assisted-ID.git
-cd CVCS-AI-Assisted-ID
-python3.10 -m venv floorplan-env && source floorplan-env/bin/activate
+git clone https://github.com/290990-collab/FusePlan.git
+cd FusePlan
+python3.10 -m venv ~/floorplan-env && source ~/floorplan-env/bin/activate
 pip install -r requirements.txt          # PyTorch 2.7 (CUDA 11.8), PyTorch Geometric 2.7, timm, transformers, FAISS
 python -m pytest tests -q                # CPU smoke tests
 ```
 
-On a fresh clone, 395 of the 419 tests run. The others read stored results that are not part of the repository: fusion,
-ensemble controls, the multi-seed round and LayoutGKN.
+The LayoutGKN baseline needs three more packages and the upstream code at the pinned commit (only for
+`scripts/competitors/`):
+
+```bash
+pip install torch_scatter==2.1.2 -f https://data.pyg.org/whl/torch-2.7.0+cu118.html
+pip install grakel==0.1.11 shapely==2.1.2
+mkdir -p external/LayoutGKN
+curl -L https://codeload.github.com/caspervanengelenburg/LayoutGKN/tar.gz/395dc92 | tar -xz --strip-components=1 -C external/LayoutGKN
+```
+
+The image encoders are downloaded from the Hugging Face Hub / timm / open_clip on first use.
+
+On a fresh clone, 391 tests pass. The 18 that fail read stored results that are not part of the repository (fusion,
+ensemble controls, the multi-seed round), and the LayoutGKN tests are skipped until its upstream code is downloaded.
 
 ## Data
 
@@ -143,14 +155,30 @@ which must be obtained from its authors. The code expects the layout of the Grap
 - **Images:** the plan images in `Interface/static/Data/snapshot_train/`.
 - **Annotations:** the `.mat` files in `Network/data/`.
 
-Set the paths in three places: `configs/vision_retrieval.yaml` (`data_dir`), `src/data/rplan_metadata.py` and
-`src/graph/graph_dataset.py`. Then build the shared gallery and the graph cache:
+Set the paths in `configs/vision_retrieval.yaml` (`data_dir`), `src/data/rplan_metadata.py` and
+`src/graph/graph_dataset.py` (also `src/graph/draw_graph.py` and `tests/test_loader.py` if you use them). Then build the shared gallery and the graph cache:
 
 ```bash
 python -m src.evaluation.gallery_join            # shared gallery of both branches -> results/shared_gallery.json
 sbatch scripts/graph/02_graph_dataset.sh         # RPLAN .mat -> room graphs, cached PyG dataset
 sbatch scripts/vision/01_extract_raw.sh pespatial  # raw image embeddings (any of the 8 encoders)
 ```
+
+## Running the scripts
+
+The scripts were written for the SLURM cluster where the study ran. To run them elsewhere:
+
+- **Launch them from the repository root.** Each script works in `$PROJECT_DIR`, which defaults to the directory
+  `sbatch` was called from (or the current directory with `bash`). Logs go to `logs/`.
+- **Virtual environment.** Scripts activate `~/floorplan-env`; set `VENV_DIR=/path/to/env` to use another one.
+- **Cluster options.** The `#SBATCH` headers name our partition, account and GPU types (`--partition`, `--account`,
+  `--constraint`). Override them on the command line, for example
+  `sbatch --partition=gpu --account=myproject scripts/final_pipeline/01_train_graph.sh gat comb 42`, or edit the header. Without SLURM, a script can run directly on a GPU machine: `bash scripts/... <same arguments>`.
+- **Outputs.** Each script lists what it writes in its header; most refuse to overwrite existing outputs:
+  - `embeddings/`: checkpoints, gallery embeddings and damaged query vectors;
+  - `results/perquery/`: per-query rankings and metrics, the input of every table;
+  - `results/csv_*/`: tables;
+  - `figures/`: figures.
 
 ## Training
 

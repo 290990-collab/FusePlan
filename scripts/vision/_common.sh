@@ -1,6 +1,6 @@
 # Shared settings for the vision jobs (source from each script): model list, valid poolings per encoder, resolutions.
 
-PROJECT_DIR="/work/cvcs2026/ai_interior_design/CVCS-AI-Assisted-ID"
+PROJECT_DIR="${PROJECT_DIR:-${SLURM_SUBMIT_DIR:-$PWD}}"
 
 # Models: argument $1 (single) or all 8.
 # Also used by scripts/evaluation/02_perquery_vision_valid.sh, which runs the whole list without arguments:

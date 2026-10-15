@@ -23,8 +23,8 @@
 
 set -uo pipefail
 umask 002
-source ~/floorplan-env/bin/activate
-cd /work/cvcs2026/ai_interior_design/CVCS-AI-Assisted-ID || exit 1
+source "${VENV_DIR:-$HOME/floorplan-env}/bin/activate"
+cd "${PROJECT_DIR:-${SLURM_SUBMIT_DIR:-$PWD}}" || exit 1
 mkdir -p logs
 export PYTHONUNBUFFERED=1
 

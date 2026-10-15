@@ -30,8 +30,8 @@
 #SBATCH --account=cvcs2026
 #SBATCH --constraint="gpu_RTX5000_16G|gpu_2080_11G|gpu_2080Ti_11G|gpu_P100_16G|gpu_RTX_A5000_24G|gpu_A40_45G|gpu_L40S_45G"
 
-source ~/floorplan-env/bin/activate
-source /work/cvcs2026/ai_interior_design/CVCS-AI-Assisted-ID/scripts/graph/_common.sh
+source "${VENV_DIR:-$HOME/floorplan-env}/bin/activate"
+source "${PROJECT_DIR:-${SLURM_SUBMIT_DIR:-$PWD}}/scripts/graph/_common.sh"
 cd "$PROJECT_DIR"
 mkdir -p logs
 

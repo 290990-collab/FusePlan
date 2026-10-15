@@ -31,8 +31,8 @@
 set -uo pipefail
 umask 002
 
-PROJECT_DIR="/work/cvcs2026/ai_interior_design/CVCS-AI-Assisted-ID"
-source ~/floorplan-env/bin/activate
+PROJECT_DIR="${PROJECT_DIR:-${SLURM_SUBMIT_DIR:-$PWD}}"
+source "${VENV_DIR:-$HOME/floorplan-env}/bin/activate"
 cd "$PROJECT_DIR" || exit 1
 mkdir -p logs
 

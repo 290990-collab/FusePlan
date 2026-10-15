@@ -12,8 +12,8 @@
 #SBATCH --partition=all_usr_prod
 #SBATCH --account=cvcs2026
 
-source ~/floorplan-env/bin/activate
-source /work/cvcs2026/ai_interior_design/CVCS-AI-Assisted-ID/scripts/graph/_common.sh
+source "${VENV_DIR:-$HOME/floorplan-env}/bin/activate"
+source "${PROJECT_DIR:-${SLURM_SUBMIT_DIR:-$PWD}}/scripts/graph/_common.sh"
 
 cd "$PROJECT_DIR"
 
